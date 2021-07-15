@@ -18,10 +18,12 @@ addAction('bbb_video', ({ room }) => {
 	const enabledDirect = useSetting('bigbluebutton_enable_d');
 	const enabledGroup = useSetting('bigbluebutton_enable_p');
 	const enabledChannel = useSetting('bigbluebutton_enable_c');
+	const enabledTeams = useSetting('bigbluebutton_enable_teams');
 
 	const groups = useStableArray([
 		enabledDirect && 'direct',
 		enabledGroup && 'group',
+		enabledTeams && 'team',
 		enabledChannel && 'channel',
 	].filter(Boolean) as ToolboxActionConfig['groups']);
 
@@ -31,7 +33,7 @@ addAction('bbb_video', ({ room }) => {
 		title: 'BBB_Video_Call',
 		icon: 'phone',
 		template: templateBBB,
-		order: live ? -1 : 0,
+		order: live ? -1 : 4,
 		renderAction: (props): ReactNode => <Header.ToolBoxAction {...props}>
 			{live ? <Header.Badge title={t('Started_a_video_call')} variant='primary'>!</Header.Badge> : null}
 		</Header.ToolBoxAction>,
@@ -46,11 +48,13 @@ addAction('video', ({ room }) => {
 	const t = useTranslation();
 
 	const enabledChannel = useSetting('Jitsi_Enable_Channels');
+	const enabledTeams = useSetting('Jitsi_Enable_Teams');
 
 	const groups = useStableArray([
 		'direct',
 		'group',
 		'live',
+		enabledTeams && 'team',
 		enabledChannel && 'channel',
 	].filter(Boolean) as ToolboxActionConfig['groups']);
 
@@ -65,7 +69,7 @@ addAction('video', ({ room }) => {
 		icon: 'phone',
 		template: templateJitsi,
 		full: true,
-		order: live ? -1 : 0,
+		order: live ? -1 : 4,
 		renderAction: (props): ReactNode => <Header.ToolBoxAction {...props}>
 			{live && <Header.Badge title={t('Started_a_video_call')} variant='primary'>!</Header.Badge>}
 		</Header.ToolBoxAction>,
